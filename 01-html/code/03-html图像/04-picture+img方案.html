@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<!--
+  ✅浏览器选择逻辑
+  浏览器从上到下匹配 <source> 的 media 条件，命中第一个就停止，加载它的 srcset：
+  1.屏幕宽 ≥ 1200px → 命中第一条 → 加载 autumn-1920x1280.png
+  2.600px ≤ 屏幕宽 < 1200px → 第一条不命中，命中第二条 → 加载 autumn-960x640.png
+  3.屏幕宽 < 600px → 两条都不命中 → 用 <img> 的 src → 加载 autumn-480x320.png
+  ✅几个注意点
+  <img> 必须写：<picture> 本身不显示图片，最终渲染靠内部的 <img>。它既是兜底，也是可访问性（alt）和 CSS 样式的载体。
+  media 条件顺序很重要：浏览器按顺序匹配，所以要把更严格/更宽的条件写在前面。上面的写法是从大到小，逻辑清晰；如果反过来写 min-width: 600px 在前，1200px 的屏幕也会先命中它，大图就用不上了。
+  srcset 这里只放一个图源：因为你是“按屏幕断点切图”，不是“同图多清晰度”，所以每个 <source> 里给一个 URL 即可。若想同时支持多清晰度，可在 srcset 里加多个候选并配合 sizes。
+  和 srcset+sizes 的区别：<picture> 适合艺术方向切换（不同断点用构图不同的图），浏览器严格按 media 选；srcset+sizes 适合同一张图的多分辨率，由浏览器按显示宽度和 DPR 自动择优。
+-->
+<picture>
+  <source media="(min-width: 1200px)" srcset="./assets/autumn-1920x1280.png">
+  <source media="(min-width: 600px)"  srcset="./assets/autumn-960x640.png">
+  <img src="./assets/autumn-480x320.png" alt="秋天的风景">
+</picture>
+
+<!--
+  如果想加高清屏(DPR)支持
+  可以在每个 srcset 里再列候选，用 x 描述符区分倍率：
+-->
+<picture>
+  <source media="(min-width: 1200px)"
+          srcset="./assets/autumn-1920x1280.png 1x, ./assets/autumn-1920x1280.png 2x">
+  <source media="(min-width: 600px)"
+          srcset="./assets/autumn-960x640.png 1x, ./assets/autumn-1920x1280.png 2x">
+  <img src="./assets/autumn-480x320.png"
+       srcset="./assets/autumn-480x320.png 1x, ./assets/autumn-960x640.png 2x"
+       alt="秋天的风景">
+</picture>
+</body>
+</html>

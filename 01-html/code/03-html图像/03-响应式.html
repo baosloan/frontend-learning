@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>响应式图片</title>
+</head>
+<body>
+<!--
+  src：默认图片
+  srcset：提供多个候选图源及宽度/像素密度描述。
+  sizes：告诉浏览器在不同视口下图片的显示宽度。
+  浏览器据此自动选择最合适的图源，节省带宽。
+-->
+<img src="./assets/autumn-960x640.png"
+     srcset="./assets/autumn-1920x1280.png 1920w,
+             ./assets/autumn-960x640.png 960w,
+             ./assets/autumn-480x320.png 480w"
+     sizes="(max-width: 600px) 100vw, 50vw"
+     alt="秋天的风景">
+</body>
+</html>
